@@ -1,0 +1,586 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Mon E-Portfolio – Bastien Michel</title>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=IBM+Plex+Sans:wght@300;400;600&display=swap" rel="stylesheet" />
+  <style>
+    /* Variables */
+    :root {
+      --bg:        #f5f4f0;
+      --surface:   #ffffff;
+      --border:    #d6d3cb;
+      --text:      #1a1a18;
+      --muted:     #6b6860;
+      --accent:    #2d5be3;
+      --accent2:   #e8372c;
+      --tag-bg:    #e9e7e1;
+      --mono:      'IBM Plex Mono', monospace;
+      --sans:      'IBM Plex Sans', sans-serif;
+      --radius:    4px;
+      --max:       860px;
+    }
+
+    /* Reset */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: var(--sans);
+      background: var(--bg);
+      color: var(--text);
+      font-size: 15px;
+      line-height: 1.65;
+    }
+    a { color: var(--accent); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+
+    /* Nav */
+    nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: var(--surface);
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 2rem;
+      height: 52px;
+    }
+    .nav-logo {
+      font-family: var(--mono);
+      font-weight: 600;
+      font-size: 14px;
+      letter-spacing: 0.04em;
+      color: var(--text);
+    }
+    .nav-logo span { color: var(--accent); }
+    .nav-links { display: flex; gap: 1.5rem; list-style: none; }
+    .nav-links a {
+      font-size: 13px;
+      color: var(--muted);
+      font-family: var(--mono);
+      letter-spacing: 0.02em;
+    }
+    .nav-links a:hover { color: var(--accent); text-decoration: none; }
+
+    /*  Layout  */
+    main { max-width: var(--max); margin: 0 auto; padding: 3rem 1.5rem 5rem; }
+
+    /*  Section  */
+    section { margin-bottom: 4rem; }
+    .section-label {
+      font-family: var(--mono);
+      font-size: 11px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 0.6rem;
+    }
+    h2 {
+      font-family: var(--mono);
+      font-size: 1.2rem;
+      font-weight: 600;
+      margin-bottom: 1.4rem;
+      padding-bottom: 0.6rem;
+      border-bottom: 1px solid var(--border);
+    }
+
+    /*  Hero  */
+    #hero {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 2rem;
+      align-items: start;
+      padding: 3rem 0 3.5rem;
+      border-bottom: 1px solid var(--border);
+      margin-bottom: 4rem;
+    }
+    .hero-title {
+      font-family: var(--mono);
+      font-size: clamp(1.8rem, 5vw, 2.6rem);
+      font-weight: 600;
+      line-height: 1.15;
+      letter-spacing: -0.02em;
+    }
+    .hero-title .name-accent { color: var(--accent); }
+    .hero-sub {
+      margin-top: 0.8rem;
+      color: var(--muted);
+      font-size: 14px;
+      max-width: 520px;
+    }
+    .hero-badges {
+      display: flex;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+      margin-top: 1.2rem;
+    }
+    .badge {
+      font-family: var(--mono);
+      font-size: 11px;
+      padding: 3px 8px;
+      border-radius: var(--radius);
+      background: var(--tag-bg);
+      color: var(--muted);
+      border: 1px solid var(--border);
+    }
+    .badge.active {
+      background: var(--accent);
+      color: #fff;
+      border-color: var(--accent);
+    }
+    .hero-photo {
+      width: 110px;
+      height: 110px;
+      border-radius: var(--radius);
+      background: var(--tag-bg);
+      border: 1px solid var(--border);
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .hero-photo img { width: 100%; height: 100%; object-fit: cover; }
+    .photo-placeholder {
+      font-family: var(--mono);
+      font-size: 11px;
+      color: var(--muted);
+      text-align: center;
+      padding: 0.5rem;
+    }
+
+    /* Video block */
+    .video-block {
+      margin-top: 1.6rem;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.2rem;
+    }
+    .video-block p {
+      font-family: var(--mono);
+      font-size: 12px;
+      color: var(--muted);
+      margin-bottom: 0.6rem;
+    }
+    .video-placeholder {
+      width: 100%;
+      height: 180px;
+      background: var(--tag-bg);
+      border-radius: var(--radius);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: var(--mono);
+      font-size: 12px;
+      color: var(--muted);
+      border: 1px dashed var(--border);
+    }
+
+    /*  Skills  */
+    .skills-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 1rem;
+    }
+    .skill-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1rem 1.1rem;
+    }
+    .skill-card h3 {
+      font-family: var(--mono);
+      font-size: 12px;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 0.5rem;
+    }
+    .tag-list { display: flex; flex-wrap: wrap; gap: 0.35rem; }
+    .tag {
+      font-family: var(--mono);
+      font-size: 11px;
+      padding: 2px 7px;
+      background: var(--tag-bg);
+      border-radius: var(--radius);
+      color: var(--muted);
+    }
+
+    /* ── Projects ── */
+    .projects-list { display: flex; flex-direction: column; gap: 1rem; }
+    .project-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.1rem 1.3rem;
+      display: flex;
+      gap: 1.2rem;
+      align-items: flex-start;
+    }
+    .project-num {
+      font-family: var(--mono);
+      font-size: 11px;
+      color: var(--border);
+      min-width: 24px;
+      margin-top: 2px;
+    }
+    .project-body h3 {
+      font-family: var(--mono);
+      font-size: 14px;
+      font-weight: 600;
+      margin-bottom: 0.25rem;
+    }
+    .project-body p { font-size: 13px; color: var(--muted); }
+    .project-tags { margin-top: 0.6rem; display: flex; gap: 0.3rem; flex-wrap: wrap; }
+
+    /*  Diplômes / Expériences  */
+    .timeline { display: flex; flex-direction: column; gap: 0; }
+    .timeline-item {
+      display: grid;
+      grid-template-columns: 130px 1fr;
+      gap: 0 1.5rem;
+      padding: 1rem 0;
+      border-bottom: 1px solid var(--border);
+    }
+    .timeline-item:last-child { border-bottom: none; }
+    .tl-date {
+      font-family: var(--mono);
+      font-size: 12px;
+      color: var(--muted);
+      padding-top: 2px;
+    }
+    .tl-content h3 {
+      font-family: var(--sans);
+      font-size: 14px;
+      font-weight: 600;
+    }
+    .tl-content p { font-size: 13px; color: var(--muted); margin-top: 0.2rem; }
+
+    /*  Intérêts  */
+    .interests-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+    .interest-item {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 0.5rem 1rem;
+      font-family: var(--mono);
+      font-size: 12px;
+      color: var(--text);
+    }
+
+    /*  Contact  */
+    .contact-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 1rem;
+    }
+    .contact-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1rem 1.2rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.3rem;
+    }
+    .contact-card .c-label {
+      font-family: var(--mono);
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--muted);
+    }
+    .contact-card a {
+      font-family: var(--mono);
+      font-size: 13px;
+      color: var(--accent);
+      word-break: break-all;
+    }
+
+    /*  Map  */
+    .map-wrapper {
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
+      height: 260px;
+    }
+    .map-wrapper iframe { width: 100%; height: 100%; border: 0; }
+
+    /*  Footer  */
+    footer {
+      border-top: 1px solid var(--border);
+      text-align: center;
+      padding: 1.5rem;
+      font-family: var(--mono);
+      font-size: 11px;
+      color: var(--muted);
+    }
+
+    /*  Responsive  */
+    @media (max-width: 600px) {
+      #hero { grid-template-columns: 1fr; }
+      .hero-photo { width: 80px; height: 80px; }
+      .timeline-item { grid-template-columns: 1fr; gap: 0.2rem; }
+      nav { padding: 0 1rem; }
+      .nav-links { gap: 0.8rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <!--  Navigation  -->
+  <nav>
+    <span class="nav-logo"><span>//</span> Bastien</span>
+    <ul class="nav-links">
+      <li><a href="#apropos">À propos</a></li>
+      <li><a href="#competences">Compétences</a></li>
+      <li><a href="#projets">Projets</a></li>
+      <li><a href="#diplomes">Diplômes</a></li>
+      <li><a href="#experiences">Expériences</a></li>
+      <li><a href="#interets">Intérêts</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+  </nav>
+
+  <main>
+
+    <!--  Hero / À propos  -->
+    <section id="apropos">
+      <div id="hero">
+        <div>
+          <div class="section-label">// 01 — À propos de moi</div>
+          <h1 class="hero-title">
+            Bonjour, je suis<br>
+            <span class="name-accent">Bastien Michel</span>
+          </h1>
+          <p class="hero-sub">
+            Étudiant en 1ère année de BUT Informatique à l'IUT de Maubeuge.
+            Passionné par le développement logiciel, je cherche une alternance
+            pour ma 2e année afin de mettre en pratique mes compétences.
+          </p>
+          <div class="hero-badges">
+            <span class="badge active">En recherche d'alternance</span>
+            <span class="badge">BUT Informatique</span>
+            <span class="badge">IUT de Maubeuge</span>
+            <span class="badge">2025–2026</span>
+          </div>
+        </div>
+        <div class="hero-photo">
+            <img src="Photo cv.jpg" alt="Ma photo">
+        </div>
+        </div>
+      </div>
+
+      <div class="video-block">
+        <video src="video.mp4" autoplay loop muted playsinline style="width:100%; border-radius: 4px;"></video>
+      </div>
+
+    <!--  Compétences  -->
+    <section id="competences">
+      <div class="section-label">// 02 — Compétences</div>
+      <h2>Mes compétences</h2>
+      <div class="skills-grid">
+        <div class="skill-card">
+          <h3>Langages</h3>
+          <div class="tag-list">
+            <span class="tag">Java</span>
+            <span class="tag">Python</span>
+            <span class="tag">SQL</span>
+            <span class="tag">HTML</span>
+            <span class="tag">CSS</span>
+            <span class="tag">JavaFX</span>
+          </div>
+        </div>
+        <div class="skill-card">
+          <h3>Concepts</h3>
+          <div class="tag-list">
+            <span class="tag">POO</span>
+            <span class="tag">Algorithmique</span>
+            <span class="tag">REST API</span>
+            <span class="tag">Tests unitaires</span>
+            <span class="tag">UML</span>
+          </div>
+        </div>
+        <div class="skill-card">
+          <h3>Soft skills</h3>
+          <div class="tag-list">
+            <span class="tag">Rigueur</span>
+            <span class="tag">Autonomie</span>
+            <span class="tag">Travail en équipe</span>
+            <span class="tag">Curiosité</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── Projets ── -->
+    <section id="projets">
+      <div class="section-label">// 03 — Projets réalisés</div>
+      <h2>Mes projets</h2>
+      <div class="projects-list">
+
+        <div class="project-card">
+          <span class="project-num">01</span>
+          <div class="project-body">
+            <h3>Developpement d'un jeu Puissance 4 (Python)</h3>
+            <p>Conception d'un jeu Puissance 4 en Python avec interface graphique Pygame / réalisation d'une IA a difficultée ajustable</p>
+            <div class="project-tags">
+              <span class="tag">Python</span><span class="tag">Pygame</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="project-card">
+          <span class="project-num">02</span>
+          <div class="project-body">
+            <h3>Base de données Pokémon (PostgreSQL)</h3>
+            <p>Conception et interrogation d'une base de données relationnelle complète sur les Pokémon, avec requêtes SQL avancées et connexion via psycopg2 (Python).</p>
+            <div class="project-tags">
+              <span class="tag">PostgreSQL</span><span class="tag">Python</span><span class="tag">psycopg2</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="project-card">
+          <span class="project-num">03</span>
+          <div class="project-body">
+            <h3>Simulation robots mineurs(Java/JavaFX)</h3>
+            <p>Modélisation et simulation de robots mineurs exploitant des minerais dans un environement varié, composants désinés à la main en pixel art</p>
+            <div class="project-tags">
+              <span class="tag">Java</span><span class="tag">JavaFX</span><span class="tag">Godot</span><span class="tag">Gimp</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="project-card">
+          <span class="project-num">04</span>
+          <div class="project-body">
+            <h3>Système de librairie (Java)</h3>
+            <p>Modélisation UML et implémentation d'un système de gestion de librairie orienté objet, avec tests unitaires JUnit 5 (boîte blanche/noire, partitionnement en classes d'équivalence).</p>
+            <div class="project-tags">
+              <span class="tag">Java</span><span class="tag">JUnit 5</span><span class="tag">UML</span><span class="tag">Modelio</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ── Diplômes ── -->
+    <section id="diplomes">
+      <div class="section-label">// 04 — Diplômes</div>
+      <h2>Mes diplômes</h2>
+      <div class="timeline">
+        <div class="timeline-item">
+          <span class="tl-date">En cours — 2026</span>
+          <div class="tl-content">
+            <h3>BUT Informatique (1ère année)</h3>
+            <p>IUT de Maubeuge — Université Polytechnique Hauts-de-France</p>
+          </div>
+        </div>
+        <div class="timeline-item">
+          <span class="tl-date">2025</span>
+          <div class="tl-content">
+            <h3>Baccalauréat</h3>
+            <p>Lycée Jesse de Forest - Avesnes-sur-Helpe</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── Expériences ── -->
+    <section id="experiences">
+      <div class="section-label">// 05 — Expériences</div>
+      <h2>Mes expériences</h2>
+      <div class="timeline">
+        <div class="timeline-item">
+          <span class="tl-date">2023</span>
+          <div class="tl-content">
+            <h3>Stagiaire</h3>
+            <p>Stage dans une société de vente de materiel et de dépanage informatique</p>
+          </div>
+        </div>
+        <div class="timeline-item">
+          <span class="tl-date">2025 – Présent</span>
+          <div class="tl-content">
+            <h3>Étudiant BUT Informatique</h3>
+            <p>Projets académiques en développement logiciel, bases de données, algorithmique et développement web.</p>
+          </div>
+        </div>
+        <div class="timeline-item">
+          <span class="tl-date">À venir</span>
+          <div class="tl-content">
+            <h3>Alternance en développement logiciel</h3>
+            <p>En recherche active pour la 2e année de BUT Informatique (2026–2027).</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── Centres d'intérêts ── -->
+    <section id="interets">
+      <div class="section-label">// 06 — Centres d'intérêts</div>
+      <h2>Mes centres d'intérêts</h2>
+      <div class="interests-grid">
+        <div class="interest-item">🎮 Jeux vidéo</div>
+        <div class="interest-item">✏️ Dessin</div>
+        <div class="interest-item">💻 Développement </div>
+        <div class="interest-item">🏋️ Fitness</div>
+        <div class="interest-item">📚 Manga/Anime</div>
+      </div>
+    </section>
+
+    <!-- ── Contact ── -->
+    <section id="contact">
+      <div class="section-label">// 07 — Contact &amp; Réseaux</div>
+      <h2>Me contacter</h2>
+      <div class="contact-grid">
+        <div class="contact-card">
+          <span class="c-label">Email</span>
+          <a href="bastienmchl@gmail.com">bastienmchl@gmail.com</a>
+        </div>
+        <div class="contact-card">
+          <span class="c-label">LinkedIn</span>
+          <a href="https://www.linkedin.com/in/bastien-michel-bba367317/" target="_blank" rel="noopener">>>>LinkedIn</a>
+        </div>
+        <div class="contact-card">
+          <span class="c-label">GitHub</span>
+          <a href="https://github.com/Zirow7089?tab=overview&from=2026-05-01&to=2026-05-07" target="_blank" rel="noopener">>>>GitHub</a>
+        </div>
+      </div>
+
+      <!-- Géolocalisation -->
+      <h2 style="margin-top: 2.5rem;">Me localiser</h2>
+      <div class="map-wrapper">
+        <iframe
+          src="https://www.openstreetmap.org/export/embed.html?bbox=3.9,-0.2,4.1,0.2&layer=mapnik&marker=50.2778,3.9736"
+          allowfullscreen
+          loading="lazy"
+          title="Localisation Maubeuge"
+        ></iframe>
+      </div>
+      <p style="font-family: var(--mono); font-size: 11px; color: var(--muted); margin-top: 0.5rem;">
+        📍 Maubeuge, Hauts-de-France, France
+      </p>
+    </section>
+
+  </main>
+
+  <footer>
+    <p>© 2025 Zirow — E-Portfolio M2207 — IUT de Maubeuge</p>
+    <p style="margin-top:0.3rem;">
+      <a href="https://www.linkedin.com/in/bastien-michel-bba367317/?skipRedirect=true" target="_blank" rel="noopener">LinkedIn</a>
+      <a href="https://github.com/Zirow7089?tab=overview&from=2026-05-01&to=2026-05-07" target="_blank" rel="noopener">GitHub</a>
+    </p>
+  </footer>
+
+</body>
+</html>
